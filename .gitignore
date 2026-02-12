@@ -1,0 +1,29 @@
+# Data
+SGJobData.csv
+data/cleaned_SGJobData.csv
+
+# Database
+backend/sgjob.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
