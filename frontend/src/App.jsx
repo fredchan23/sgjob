@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Overview from "./components/Overview";
 import SalaryChart from "./components/SalaryChart";
 import CategoryChart from "./components/CategoryChart";
@@ -13,8 +13,25 @@ const TABS = [
   { key: "trends", label: "Trends", component: TrendsChart },
 ];
 
+function getTabFromHash() {
+  const hash = window.location.hash.replace("#", "");
+  return TABS.find((t) => t.key === hash) ? hash : "overview";
+}
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState(getTabFromHash);
+
+  useEffect(() => {
+    const onHashChange = () => setActiveTab(getTabFromHash());
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  const handleTabClick = (key) => {
+    window.location.hash = key;
+    setActiveTab(key);
+  };
+
   const ActiveComponent = TABS.find((t) => t.key === activeTab).component;
 
   return (
@@ -32,7 +49,7 @@ export default function App() {
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => handleTabClick(tab.key)}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.key
                   ? "border-blue-500 text-blue-600"
